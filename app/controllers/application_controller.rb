@@ -1,3 +1,5 @@
+require "pry"
+
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
@@ -6,10 +8,10 @@ class ApplicationController < Sinatra::Base
     { message: "Good luck with your project!" }.to_json
   end
 
-  # get "/attractions" do
+  get "/attractions" do
     
-  #   { message: "Good luck with your project!" }.to_json
-  # end
+    { message: "Good luck with your project!" }.to_json
+  end
 
   get "/locations" do
     locations = Location.all
@@ -37,12 +39,27 @@ class ApplicationController < Sinatra::Base
     location.to_json
   end
 
+  get "/attractions/:id" do
+    attraction = Attraction.find(params[:id])
+    attraction.to_json
+  end
+
+  post "/attractions" do
+    attraction = Attraction.create(
+      name: params[:name],
+      attraction_type: params[:attraction_type],
+      notes: params[:notes]
+    )
+    attraction.to_json
+  end
+
   delete "/locations/:id" do
     location = Location.find(params[:id])
     location.destroy
     location.to_json
   end
 
+  # Not used yet
   delete "/attractions/:id" do
     attraction = Attraction.find(params[:id])
     attraction.destroy
