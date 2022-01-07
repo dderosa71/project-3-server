@@ -36,7 +36,9 @@ class ApplicationController < Sinatra::Base
       state: params[:state],
       country: params[:country]
     )
-    location.to_json
+    location.to_json(
+    include: :attractions
+    )
   end
 
   get "/attractions/:id" do
@@ -48,8 +50,10 @@ class ApplicationController < Sinatra::Base
     attraction = Attraction.create(
       name: params[:name],
       attraction_type: params[:attraction_type],
-      notes: params[:notes]
+      notes: params[:notes],
+      location_id: params[:location_id]
     )
+    # binding.pry
     attraction.to_json
   end
 
